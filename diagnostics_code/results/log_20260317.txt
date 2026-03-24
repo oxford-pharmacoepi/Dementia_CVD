@@ -1,0 +1,21 @@
+INFO  [2026-03-17 14:14:06] LOG CREATED
+INFO  [2026-03-17 14:15:48] Creating condition cohorts (concept based)
+INFO  [2026-03-17 14:19:07] creating drug codelists
+INFO  [2026-03-17 14:29:57] LOG CREATED
+INFO  [2026-03-17 14:29:57] Creating cohorts
+INFO  [2026-03-17 14:29:57] Creating dementia condition based cohorts
+INFO  [2026-03-17 14:31:15] creating drug codelists
+INFO  [2026-03-17 14:31:40] creating dementia drug based cohorts
+INFO  [2026-03-17 14:33:06] Creating cvd cohorts
+INFO  [2026-03-17 14:34:21] binding cohorts
+INFO  [2026-03-17 14:41:02] Running Phenotype Diagnostics
+INFO  [2026-03-17 19:41:39] Finished
+INFO  [2026-03-23 12:29:47] Running Phenotype Diagnostics
+INFO  [2026-03-23 12:30:00] Creating cohorts
+INFO  [2026-03-23 12:30:00] Creating dementia condition based cohorts
+INFO  [2026-03-23 12:31:24] creating drug codelists
+INFO  [2026-03-23 12:32:23] creating dementia drug based cohorts
+INFO  [2026-03-23 12:35:32] Creating cvd cohorts
+INFO  [2026-03-23 12:37:33] binding cohorts
+INFO  [2026-03-23 12:39:29] Running Phenotype Diagnostics
+INFO  [2026-03-23 17:18:17] Finished

@@ -1,0 +1,104 @@
+[2026-03-03 12:46:31] - Log file created
+[2026-03-03 12:51:18] - -- creating condition cohorts (concept based)
+[2026-03-05 10:04:09] - Database diagnostics - getting CDM Snapshot
+[2026-03-05 10:04:10] - Database diagnostics - summarising person table
+[2026-03-05 10:04:29] - Database diagnostics - summarising observation period
+[2026-03-05 10:05:02] - Database diagnostics - summarising clinical tables - summary
+[2026-03-05 10:05:46] - Database diagnostics - summarising clinical tables - trends
+[2026-03-05 10:06:09] - Codelist diagnostics - index event breakdown
+[2026-03-05 10:07:58] - Codelist diagnostics - achilles code counts
+[2026-03-05 10:08:44] - Codelist diagnostics - orphan concepts
+[2026-03-05 10:14:16] - Cohort diagnostics - cohort attrition
+[2026-03-05 10:14:16] - Cohort diagnostics - cohort count
+[2026-03-05 10:14:22] - Cohort diagnostics - cohort overlap
+[2026-03-05 10:14:24] - Cohort diagnostics - cohort timing
+[2026-03-05 10:14:26] - Cohort diagnostics - matched cohorts
+[2026-03-05 10:30:30] - -- creating drug cohorts
+[2026-03-05 10:42:54] - Database diagnostics - getting CDM Snapshot
+[2026-03-05 10:42:55] - Database diagnostics - summarising person table
+[2026-03-05 10:43:20] - Database diagnostics - summarising observation period
+[2026-03-05 10:43:59] - Database diagnostics - summarising clinical tables - summary
+[2026-03-05 10:48:39] - Database diagnostics - summarising clinical tables - trends
+[2026-03-05 10:51:19] - Codelist diagnostics - index event breakdown
+[2026-03-05 10:54:54] - Codelist diagnostics - drug diagnostics
+[2026-03-05 10:58:39] - Codelist diagnostics - achilles code counts
+[2026-03-05 10:59:33] - Codelist diagnostics - orphan concepts
+[2026-03-05 11:05:41] - Cohort diagnostics - cohort attrition
+[2026-03-05 11:05:42] - Cohort diagnostics - cohort count
+[2026-03-05 11:05:51] - Cohort diagnostics - cohort overlap
+[2026-03-05 11:05:54] - Cohort diagnostics - cohort timing
+[2026-03-05 11:05:59] - Cohort diagnostics - matched cohorts
+[2026-03-05 11:28:59] - Cohort diagnostics - cohort characteristics
+[2026-03-05 11:32:01] - Cohort diagnostics - age density
+[2026-03-05 11:32:05] - Cohort diagnostics - large scale characteristics
+[2026-03-05 13:34:14] - Population diagnosics - denominator cohort
+[2026-03-05 13:34:14] - Population diagnosics - sampling person table to1e+06
+[2026-03-05 13:34:43] - Population diagnosics - incidence
+[2026-03-05 13:39:43] - Population diagnosics - prevalence
+[2026-03-05 13:41:21] - Phenotype diagnostics - exporting results
+[2026-03-05 13:41:21] - Exporting log file
+[2026-03-17 11:58:27] - Database diagnostics - getting CDM Snapshot
+[2026-03-17 11:58:28] - Database diagnostics - summarising person table
+[2026-03-17 11:58:49] - Database diagnostics - summarising observation period
+[2026-03-17 11:59:51] - Database diagnostics - summarising clinical tables - summary
+[2026-03-17 12:11:44] - Database diagnostics - summarising clinical tables - trends
+[2026-03-17 12:15:19] - Codelist diagnostics - index event breakdown
+[2026-03-17 12:22:52] - Codelist diagnostics - drug diagnostics
+[2026-03-17 12:28:07] - Codelist diagnostics - achilles code counts
+[2026-03-17 12:29:24] - Codelist diagnostics - orphan concepts
+[2026-03-17 12:36:16] - Cohort diagnostics - cohort attrition
+[2026-03-17 12:36:16] - Cohort diagnostics - cohort count
+[2026-03-17 12:36:25] - Cohort diagnostics - cohort overlap
+[2026-03-17 12:36:27] - Cohort diagnostics - cohort timing
+[2026-03-17 12:36:32] - Cohort diagnostics - matched cohorts
+[2026-03-17 13:00:42] - Cohort diagnostics - cohort characteristics
+[2026-03-17 13:03:57] - Cohort diagnostics - age density
+[2026-03-17 13:04:00] - Cohort diagnostics - large scale characteristics
+[2026-03-17 14:41:02] - Database diagnostics - getting CDM Snapshot
+[2026-03-17 14:41:03] - Database diagnostics - summarising person table
+[2026-03-17 14:41:51] - Database diagnostics - summarising observation period
+[2026-03-17 14:43:43] - Database diagnostics - summarising clinical tables - summary
+[2026-03-17 14:57:06] - Database diagnostics - summarising clinical tables - trends
+[2026-03-17 15:05:32] - Codelist diagnostics - index event breakdown
+[2026-03-17 15:11:41] - Codelist diagnostics - drug diagnostics
+[2026-03-17 15:16:26] - Codelist diagnostics - achilles code counts
+[2026-03-17 15:17:32] - Codelist diagnostics - orphan concepts
+[2026-03-17 15:24:38] - Cohort diagnostics - cohort attrition
+[2026-03-17 15:24:39] - Cohort diagnostics - cohort count
+[2026-03-17 15:24:54] - Cohort diagnostics - cohort overlap
+[2026-03-17 15:24:56] - Cohort diagnostics - cohort timing
+[2026-03-17 15:25:00] - Cohort diagnostics - matched cohorts
+[2026-03-17 16:03:31] - Cohort diagnostics - cohort characteristics
+[2026-03-17 16:06:58] - Cohort diagnostics - age density
+[2026-03-17 16:07:02] - Cohort diagnostics - large scale characteristics
+[2026-03-17 19:28:37] - Population diagnosics - denominator cohort
+[2026-03-17 19:28:37] - Population diagnosics - sampling person table to1e+06
+[2026-03-17 19:29:48] - Population diagnosics - incidence
+[2026-03-17 19:39:49] - Population diagnosics - prevalence
+[2026-03-17 19:41:17] - Phenotype diagnostics - exporting results
+[2026-03-17 19:41:17] - Exporting log file
+[2026-03-17 19:41:22] - Exporting log file
+[2026-03-23 12:39:29] - Database diagnostics - getting CDM Snapshot
+[2026-03-23 12:39:30] - Database diagnostics - summarising person table
+[2026-03-23 12:39:52] - Database diagnostics - summarising observation period
+[2026-03-23 12:40:42] - Database diagnostics - summarising clinical tables - summary
+[2026-03-23 12:45:16] - Database diagnostics - summarising clinical tables - trends
+[2026-03-23 12:47:23] - Codelist diagnostics - index event breakdown
+[2026-03-23 12:51:47] - Codelist diagnostics - drug diagnostics
+[2026-03-23 12:57:03] - Codelist diagnostics - achilles code counts
+[2026-03-23 12:58:27] - Codelist diagnostics - orphan concepts
+[2026-03-23 13:06:55] - Cohort diagnostics - cohort attrition
+[2026-03-23 13:06:56] - Cohort diagnostics - cohort count
+[2026-03-23 13:07:05] - Cohort diagnostics - cohort overlap
+[2026-03-23 13:07:16] - Cohort diagnostics - cohort timing
+[2026-03-23 13:07:21] - Cohort diagnostics - matched cohorts
+[2026-03-23 13:27:52] - Cohort diagnostics - cohort characteristics
+[2026-03-23 13:31:35] - Cohort diagnostics - age density
+[2026-03-23 13:31:38] - Cohort diagnostics - large scale characteristics
+[2026-03-23 17:04:33] - Population diagnosics - denominator cohort
+[2026-03-23 17:04:33] - Population diagnosics - sampling person table to1e+06
+[2026-03-23 17:05:46] - Population diagnosics - incidence
+[2026-03-23 17:16:23] - Population diagnosics - prevalence
+[2026-03-23 17:17:56] - Phenotype diagnostics - exporting results
+[2026-03-23 17:17:56] - Exporting log file
+[2026-03-23 17:18:00] - Exporting log file
