@@ -13,7 +13,7 @@ log4r::info(logger, "LOG CREATED") #to write messages in log file
 source(here("cohorts","instantiate_cohorts.R"))
 
 # run diagnostics ----
-source(here("diagnostics_code","phenotypeR.R"))
+source(here("phenotypeR.R"))
 
 
 log4r::info(logger, "Finished")
