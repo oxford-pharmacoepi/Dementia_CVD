@@ -16,3 +16,9 @@ exportSummarisedResult(result,
                        fileName = "results_dementia_cvd_cohorts.csv",
                        path = here::here("results"), 
                        minCellCount = minCellCount)
+
+
+#result <-omopgenerics::importSummarisedResult(here::here("results"))
+
+#shinyDiagnostics(result, here::here())
+
