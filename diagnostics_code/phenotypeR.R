@@ -14,7 +14,7 @@ result <- phenotypeDiagnostics(
 # export the results
 exportSummarisedResult(result, 
                        fileName = "results_dementia_cvd_cohorts.csv",
-                       path = here::here("results"), 
+                       path = here::here("~/R/Dementia_CVD/diagnostics_code/results"), 
                        minCellCount = minCellCount)
 
 

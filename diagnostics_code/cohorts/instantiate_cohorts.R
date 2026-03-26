@@ -45,13 +45,18 @@ cdm$dementia_drugs <- conceptCohort(cdm,
                                          name = "dementia_drugs") 
 
 #bind dementia drugs and dementia conditions
+
 cdm <- bind(cdm[["dementia_drugs"]],
             cdm[["dementia_conditions"]],
             name="dementia_cohorts")
 
-cdm$dementia_cohorts
+cdm$dementia_cohorts<- unionCohorts(cdm$dementia_cohorts,
+                            cohortName = "dementia_overall", 
+                            keepOriginalCohorts = TRUE,
+                            name ="dementia_cohorts")
 
 log4r::info(logger, "Creating cvd cohorts") 
+
 #CVD cohorts
 cvd_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_cvd"), 
                                               type = "csv")
@@ -65,10 +70,17 @@ cdm$cvd_conditions <- CohortConstructor::conceptCohort(cdm,
                                                             useRecordsBeforeObservation = FALSE
 )
 
-
+cdm$cvd_cohorts<- unionCohorts(cdm$cvd_conditions,
+                                    cohortName = "cvd_overall", 
+                                    keepOriginalCohorts = TRUE,
+                                    name ="cvd_cohorts")
 log4r::info(logger, "binding cohorts") 
+
 #bind exposures and outcomes
 cdm <- bind(cdm[["dementia_cohorts"]],
             cdm[["cvd_conditions"]],
             name="cvd_dem_cohorts")
-cdm$cvd_dem_cohorts
+cdm$cvd_dem_cohorts<- unionCohorts(cdm$cvd_dem_cohorts,
+                                                  cohortName = "cvd_dem", 
+                                                  keepOriginalCohorts = TRUE,
+                                                  name ="cvd_dem_cohorts")
