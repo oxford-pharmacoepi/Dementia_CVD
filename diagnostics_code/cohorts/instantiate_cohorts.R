@@ -11,6 +11,7 @@ library(omopgenerics)
 log4r::info(logger, "Creating cohorts") 
 
 log4r::info(logger, "Creating dementia condition based cohorts") 
+
 #dementia conditions codes
 dementia_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_dem"), 
                                            type = "csv")
@@ -21,7 +22,7 @@ cdm$dementia_conditions <- CohortConstructor::conceptCohort(cdm,
                              overlap="merge", 
                              name = "dementia_conditions",
                               useRecordsBeforeObservation = FALSE
-)
+)|>  exitAtObservationEnd()
 
 cdm$dementia_conditions 
 
@@ -42,20 +43,25 @@ cdm$dementia_drugs <- conceptCohort(cdm,
                                          conceptSet = dementia_drug_codes,
                                          table = "drug_exposure",
                                          exit = "event_end_date",
-                                         name = "dementia_drugs") 
+                                         name = "dementia_drugs"
+                                    )|>  exitAtObservationEnd()
 
 #bind dementia drugs and dementia conditions
+
 cdm <- bind(cdm[["dementia_drugs"]],
             cdm[["dementia_conditions"]],
             name="dementia_cohorts")
 
-cdm$dementia_cohorts
+cdm$dementia_cohorts<- unionCohorts(cdm$dementia_cohorts,
+                            cohortName = "dementia_overall", 
+                            keepOriginalCohorts = TRUE,
+                            name ="dementia_cohorts")
 
 log4r::info(logger, "Creating cvd cohorts") 
+
 #CVD cohorts
 cvd_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_cvd"), 
                                               type = "csv")
-cvd_codes
 
 cdm$cvd_conditions <- CohortConstructor::conceptCohort(cdm, 
                                                             conceptSet = cvd_codes,
@@ -63,12 +69,25 @@ cdm$cvd_conditions <- CohortConstructor::conceptCohort(cdm,
                                                             overlap="merge", 
                                                             name = "cvd_conditions",
                                                             useRecordsBeforeObservation = FALSE
-)
+)|>  exitAtObservationEnd()
 
-
+cdm$cvd_cohorts<- unionCohorts(cdm$cvd_conditions,
+                                    cohortName = "cvd_overall", 
+                                    keepOriginalCohorts = TRUE,
+                                    name ="cvd_cohorts")
 log4r::info(logger, "binding cohorts") 
+exists("cvd_overall")
 #bind exposures and outcomes
-cdm <- bind(cdm[["dementia_cohorts"]],
-            cdm[["cvd_conditions"]],
-            name="cvd_dem_cohorts")
-cdm$cvd_dem_cohorts
+
+
+cdm$cvd_dem_cohorts<- cdm$dementia_cohorts|> 
+  requireCohortIntersect(intersections=c(1,Inf),
+                         targetCohortTable="cvd_cohorts",
+                         window=c(-Inf, Inf), 
+                         name="cvd_dem_cohorts"
+  )
+
+names <- cdm$cvd_dem_cohorts |> settings() |> pull("cohort_name")
+new_names <- paste0(names, "_", "intersection")
+cdm$cvd_dem_cohorts <- cdm$cvd_dem_cohorts |>
+  renameCohort(new_names, cohortId = names)
