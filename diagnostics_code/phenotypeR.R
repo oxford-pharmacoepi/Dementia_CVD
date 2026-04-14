@@ -26,11 +26,20 @@ results[["cvd_cohorts"]] <- phenotypeDiagnostics(
   populationDateRange = as.Date(c(NA, NA))
 )
 
-# export the results
-results1 <- bind(results)
-exportSummarisedResult (results1, fileName = paste0("results_dementia_cvd_cohorts", Sys.Date(),".csv"),
-                        path = here::here("results"), 
-                        minCellCount = minCellCount)
+#per evitar error duplicate results
+results[["dementia_cohorts"]] <- results[["dementia_cohorts"]]  |> filterSettings(result_type != "summarise_log_file")                  
+results[["cvd_dem_cohorts"]] <- results[["cvd_dem_cohorts"]] |> filterSettings(result_type != "summarise_log_file")  
+results[["dementia_cohorts"]] <- results[["dementia_cohorts"]]  |> filterSettings(result_type != "summarise_omop_snapshot")                  
+results[["cvd_dem_cohorts"]] <- results[["cvd_dem_cohorts"]] |> filterSettings(result_type != "summarise_omop_snapshot")  
+
+results1 <- bind(results) #Marta's code without specifying the name of the database
+
+exportSummarisedResult(
+  results1,
+  fileName = "results_{cdm_name}_{date}.csv",
+  path = here::here("results"),
+  minCellCount = minCellCount
+)
 
 #result <-omopgenerics::importSummarisedResult(here::here("results"))
 
