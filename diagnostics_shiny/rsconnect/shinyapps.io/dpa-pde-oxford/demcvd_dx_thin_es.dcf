@@ -1,0 +1,12 @@
+name: demcvd_dx_thin_es
+title: demcvd_dx_thin_es
+username: dpa-pde-oxford
+account: dpa-pde-oxford
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17101815
+bundleId: 11842089
+url: https://dpa-pde-oxford.shinyapps.io/demcvd_dx_thin_es/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
