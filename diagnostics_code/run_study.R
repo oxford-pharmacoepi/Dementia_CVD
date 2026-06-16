@@ -17,7 +17,7 @@ cdm$drug_era <- cdm$drug_era |>
   )
 
 # instantiate necessary cohorts ----
-source(here("cohorts","instantiate_cohorts.R"))
+source(here("Cohorts","instantiate_cohorts.R"))
 
 # run diagnostics ----
 
