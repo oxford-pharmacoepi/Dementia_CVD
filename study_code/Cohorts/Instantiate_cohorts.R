@@ -13,7 +13,7 @@ log4r::info(logger, "Creating cohorts")
 log4r::info(logger, "Creating dementia condition based cohorts") 
 
 #dementia conditions codes
-dementia_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_dem"), 
+dementia_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/Cohorts/Code_lists_dem"), 
                                               type = "csv")
 
 cdm$dementia_conditions <- CohortConstructor::conceptCohort(cdm, 
@@ -24,14 +24,12 @@ cdm$dementia_conditions <- CohortConstructor::conceptCohort(cdm,
                                                             useRecordsBeforeObservation = FALSE
 )|>  exitAtObservationEnd()
 
-cdm$dementia_conditions 
-
-#omopgenerics::cohortCount(cdm$dementia_conditions) 
+#cohortCount(cdm$dementia_conditions) 
 #settings(cdm$dementia_conditions)
 
 #dementia_drugs
 log4r::info(logger, "creating drug codelists") 
-dementia_drug_codes <- getDrugIngredientCodes(cdm, 
+dementia_drug_codes <-CohortConstructor::getDrugIngredientCodes(cdm, 
                                               name = c("donepezil",
                                                        "galantamine", 
                                                        "rivastigmine", 
@@ -39,7 +37,7 @@ dementia_drug_codes <- getDrugIngredientCodes(cdm,
 
 
 log4r::info(logger, "creating dementia drug based cohorts") 
-cdm$dementia_drugs <- conceptCohort(cdm,
+cdm$dementia_drugs <- CohortConstructor::conceptCohort(cdm,
                                     conceptSet = dementia_drug_codes,
                                     table = "drug_exposure",
                                     exit = "event_end_date",
@@ -52,15 +50,27 @@ cdm <- bind(cdm[["dementia_drugs"]],
             cdm[["dementia_conditions"]],
             name="dementia_cohorts")
 
-cdm$dementia_cohorts<- unionCohorts(cdm$dementia_cohorts,
+cdm$dementia_cohorts<- CohortConstructor::unionCohorts(cdm$dementia_cohorts,
                                     cohortName = "dementia_overall", 
                                     keepOriginalCohorts = TRUE,
-                                    name ="dementia_cohorts")
+                                    name ="dementia_cohorts")|>
+
+CohortConstructor::requireDemographics(
+  "dementia_cohorts",
+  cohortId = NULL,
+  indexDate = "cohort_start_date",
+  ageRange = list(c(18, 150)),
+  sex = c("Both"),
+  minPriorObservation = 180,
+  minFutureObservation = 0,
+  atFirst = FALSE,
+  name ="dementia_cohorts"
+)
 
 log4r::info(logger, "Creating cvd cohorts") 
 
 #CVD cohorts
-cvd_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_cvd"), 
+cvd_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/Cohorts/Code_lists_cvd"), 
                                          type = "csv")
 
 cdm$cvd_conditions <- CohortConstructor::conceptCohort(cdm, 
@@ -71,15 +81,28 @@ cdm$cvd_conditions <- CohortConstructor::conceptCohort(cdm,
                                                        useRecordsBeforeObservation = FALSE)|>
   exitAtObservationEnd()
 
-cdm$cvd_cohorts<- unionCohorts(cdm$cvd_conditions,
+cdm$cvd_cohorts<-CohortConstructor::unionCohorts(cdm$cvd_conditions,
                                cohortName = "cvd_overall", 
                                keepOriginalCohorts = TRUE,
-                               name ="cvd_cohorts")
+                               name ="cvd_cohorts")|>
+  
+  CohortConstructor::requireDemographics(
+    cohort,
+    cohortId = NULL,
+    indexDate = "cohort_start_date",
+    ageRange = list(c(18, 150)),
+    sex = c("Both"),
+    minPriorObservation = 180,
+    minFutureObservation = 0,
+    atFirst = FALSE,
+    name =dementia_cohorts
+  )
+
 log4r::info(logger, "binding cohorts") 
 
-#bind exposures and outcomes
+#intersection of exposures and outcomes
 cdm$cvd_dem_cohorts<- cdm$dementia_cohorts|> 
-  requireCohortIntersect(intersections=c(1,Inf),
+  CohortConstructor::requireCohortIntersect(intersections=c(1,Inf),
                          targetCohortTable="cvd_cohorts",
                          window=c(-Inf, Inf), 
                          name="cvd_dem_cohorts"
@@ -94,7 +117,7 @@ cdm$cvd_dem_cohorts <- cdm$cvd_dem_cohorts |>
 cdm <- bind(cdm[["dementia_cohorts"]],
             cdm[["cvd_conditions"]],
             name="cvd_dem_cohorts")
-cdm$cvd_dem_cohorts<- unionCohorts(cdm$cvd_dem_cohorts,
+cdm$cvd_dem_cohorts<- CohortConstructor::unionCohorts(cdm$cvd_dem_cohorts,
                                    cohortName = "cvd_dem", 
                                    keepOriginalCohorts = TRUE,
                                    name ="cvd_dem_cohorts")
