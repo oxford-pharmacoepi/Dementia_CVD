@@ -10,7 +10,7 @@ cdm <- generateDenominatorCohortSet(
   ageGroup = list(
     c(18, 150),
     c(65, 100),
-    c(0, 64)
+    c(18, 64)
   ),
   sex = c("Male", "Female", "Both"),
   daysPriorObservation = 180
@@ -23,7 +23,6 @@ inc <- estimateIncidence(
   outcomeTable = "dementia_cohorts",
   interval = "years",
   repeatedEvents = TRUE,
-  outcomeWashout = 180,
   completeDatabaseIntervals = TRUE
 )
 plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
@@ -68,9 +67,9 @@ plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"
 ##Dementia_CVD cohort 
 
 #generate denominator
-cdm <- generateDenominatorCohortSet(
+cdm <- generateTargetDenominatorCohortSet(
   cdm = cdm,
-  name = "dementia_cohorts",
+  name = "denominator_dementia_CVD",
   cohortDateRange = as.Date(c("2005-01-01", "2024-12-31")),
   ageGroup = list(
     c(18, 150),
@@ -93,7 +92,6 @@ inc <- estimateIncidence(
 )
 plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
-
 #estimate period prevalence of CVD in dementia population
 prev_period <- estimatePeriodPrevalence(
   cdm = cdm,
@@ -105,6 +103,13 @@ prev_period <- estimatePeriodPrevalence(
 )
 plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 
+#Bind all results
+cdm <- bind(cdm[["prev_period"]],
+            cdm[["inc"]],
+            name="inc_prev")
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+# Exporting to xlsx
+study_path <-"C:/Users/aballve/OneDrive - Nexus365/Dementia_CVD/Project_AD_CVD"
+openxlsx::write.xlsx(cdm, 
+                     file = paste0(study_path, "incidence_prevalence.xlsx"), 
+                     colNames = TRUE, rowNames = FALSE)
