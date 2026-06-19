@@ -23,33 +23,21 @@ results[["cohort_attrition_dem_cvd_any"]] <- cdm$cdm$cvd_dem_cohorts |>
 
 #Cohort characteristics dementia_any
 cdm$dementia_cohorts|>
-  |>
-  summariseCharacteristics(
+  addSex()%>%
+  addAge(ageGroup=list(c(18-64), c(65-150),c(18, 150)))%>%
+  CohortCharacteristics::summariseCharacteristics(
   cohort,
   cohortId = NULL,
   strata = list("age", "sex"),
   counts = TRUE,
   demographics = TRUE,
   ageGroup = list (c(18-64), c(65-150),c(18, 150))
-  tableIntersectFlag = list(),
-  tableIntersectCount = list(),
-  tableIntersectDate = list(),
-  tableIntersectDays = list(),
-  cohortIntersectFlag = list(),
-  cohortIntersectCount = list(),
-  cohortIntersectDate = list(),
-  cohortIntersectDays = list(),
-  conceptIntersectFlag = list(),
-  conceptIntersectCount = list(),
-  conceptIntersectDate = list(),
-  conceptIntersectDays = list(),
-  otherVariables = character(),
-  estimates = list(),
-  weights = NULL
 )
 
 #Cohort characteristics cvd_any
 cdm$cvd_cohorts|>
+  addSex()%>%
+  addAge(ageGroup=list(c(18-64), c(65-150),c(18, 150)))%>%
   summariseCharacteristics(
     cohort,
     cohortId = NULL,
@@ -57,25 +45,12 @@ cdm$cvd_cohorts|>
     counts = TRUE,
     demographics = TRUE,
     ageGroup = list (c(18-64), c(65-150),c(18, 150))
-                     tableIntersectFlag = list(),
-                     tableIntersectCount = list(),
-                     tableIntersectDate = list(),
-                     tableIntersectDays = list(),
-                     cohortIntersectFlag = list(),
-                     cohortIntersectCount = list(),
-                     cohortIntersectDate = list(),
-                     cohortIntersectDays = list(),
-                     conceptIntersectFlag = list(),
-                     conceptIntersectCount = list(),
-                     conceptIntersectDate = list(),
-                     conceptIntersectDays = list(),
-                     otherVariables = character(),
-                     estimates = list(),
-                     weights = NULL
                      )
     
 #Cohort characteristics dementia_cvd
 cdm$cvd_dem_cohorts|>
+  addSex()%>%
+  addAge(ageGroup=list(c(18-64), c(65-150),c(18, 150)))%>%
 summariseCharacteristics(
     cohort,
     cohortId = NULL,
@@ -83,19 +58,4 @@ summariseCharacteristics(
     counts = TRUE,
     demographics = TRUE,
     ageGroup = list (c(18-64), c(65-150),c(18, 150))
-                     tableIntersectFlag = list(),
-                     tableIntersectCount = list(),
-                     tableIntersectDate = list(),
-                     tableIntersectDays = list(),
-                     cohortIntersectFlag = list(),
-                     cohortIntersectCount = list(),
-                     cohortIntersectDate = list(),
-                     cohortIntersectDays = list(),
-                     conceptIntersectFlag = list(),
-                     conceptIntersectCount = list(),
-                     conceptIntersectDate = list(),
-                     conceptIntersectDays = list(),
-                     otherVariables = character(),
-                     estimates = list(),
-                     weights = NULL
     )
