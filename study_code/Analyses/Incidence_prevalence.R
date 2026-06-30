@@ -17,7 +17,7 @@ cdm <- generateDenominatorCohortSet(
 )
 
 #estimate incidence dementia in overall population
-inc <- estimateIncidence(
+inc_dem <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "overall_population",
   outcomeTable = "dementia_cohorts",
@@ -29,7 +29,7 @@ plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 
 #estimate period prevalence of dementia in overall population
-prev_period <- estimatePeriodPrevalence(
+prev_period_dem <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "overall_population",
   outcomeTable = "dementia_cohorts",
@@ -40,7 +40,7 @@ prev_period <- estimatePeriodPrevalence(
 plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 
 #estimate incidence cvd in overall population
-inc <- estimateIncidence(
+inc_cvd <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "overall_population",
   outcomeTable = "cvd_cohorts",
@@ -53,7 +53,7 @@ plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 
 #estimate period prevalence of cvd in overall population
-prev_period <- estimatePeriodPrevalence(
+prev_period_cvd <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "overall_population",
   outcomeTable = "cvd_cohorts",
@@ -81,7 +81,7 @@ cdm <- generateTargetDenominatorCohortSet(
 )
 
 #estimate incidence CVD in dementia population
-inc <- estimateIncidence(
+inc_cvd_dem <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "dementia_cohorts",
   outcomeTable = "cvd_cohorts",
@@ -93,7 +93,7 @@ inc <- estimateIncidence(
 plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 #estimate period prevalence of CVD in dementia population
-prev_period <- estimatePeriodPrevalence(
+prev_period_cvd_dem <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "dementia_cohorts",
   outcomeTable = "cvd_cohorts",
@@ -103,12 +103,16 @@ prev_period <- estimatePeriodPrevalence(
 )
 plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 
-#Bind all results
-cdm <- bind(cdm[["prev_period"]],
-            cdm[["inc"]],
-            name="inc_prev")
+##Bind all results
+cdm <- bind(cdm[["prev_period_dem"]],
+            cdm[["inc_dem"]],
+            cdm$"inc_cvd",
+            cdm$"prev_period_cvd",
+            cdm$"inc_cvd_dem",
+            cdm$"prev_period_cvd_dem", 
+              name="results_inc_prev")
 
-# Exporting to xlsx
+## Exporting to xlsx
 study_path <-"C:/Users/aballve/OneDrive - Nexus365/Dementia_CVD/Project_AD_CVD"
 openxlsx::write.xlsx(cdm, 
                      file = paste0(study_path, "incidence_prevalence.xlsx"), 

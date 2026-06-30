@@ -68,6 +68,7 @@ writeSchema <- "results"
 achillesSchema <- "results"
 
 # minimum counts that can be displayed according to data governance
+
 minCellCount <- 5
 
 # Create cdm object ----

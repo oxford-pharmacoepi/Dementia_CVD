@@ -21,7 +21,8 @@ source(here("cohorts","instantiate_cohorts.R"))
 
 # run diagnostics ----
 
-source(here("phenotypeR.R"))
+source(here("analyses", "characteristics.R"))
+source(here("analyses", "incidence_prevalence.R"))
 
 
 log4r::info(logger, "Finished")
