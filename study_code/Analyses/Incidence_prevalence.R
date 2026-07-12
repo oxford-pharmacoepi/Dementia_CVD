@@ -69,7 +69,7 @@ plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"
 #generate denominator
 cdm <- generateTargetDenominatorCohortSet(
   cdm = cdm,
-  name = "denominator_dementia_CVD",
+  name = "denominator_dementia_cvd",
   cohortDateRange = as.Date(c("2005-01-01", "2024-12-31")),
   ageGroup = list(
     c(18, 150),
