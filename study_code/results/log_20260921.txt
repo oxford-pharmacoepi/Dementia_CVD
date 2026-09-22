@@ -1,0 +1,79 @@
+INFO  [2026-09-21 15:55:27] LOG CREATED
+INFO  [2026-09-21 15:55:27] Summarise snapshot
+INFO  [2026-09-21 15:55:28] LOG CREATED
+INFO  [2026-09-21 15:55:37] START INSTANTIATING COHORTS
+INFO  [2026-09-21 15:57:04] LOG CREATED
+INFO  [2026-09-21 15:57:04] Summarise snapshot
+INFO  [2026-09-21 15:57:05] LOG CREATED
+INFO  [2026-09-21 15:57:14] START INSTANTIATING COHORTS
+INFO  [2026-09-21 15:59:31] LOG CREATED
+INFO  [2026-09-21 15:59:31] Summarise snapshot
+INFO  [2026-09-21 15:59:32] LOG CREATED
+INFO  [2026-09-21 15:59:42] START INSTANTIATING COHORTS
+INFO  [2026-09-21 16:04:16] LOG CREATED
+INFO  [2026-09-21 16:04:16] Summarise snapshot
+INFO  [2026-09-21 16:04:17] LOG CREATED
+INFO  [2026-09-21 16:04:27] START INSTANTIATING COHORTS
+INFO  [2026-09-21 16:04:27] Creating cohorts
+INFO  [2026-09-21 16:04:27] Creating dementia condition based cohorts
+INFO  [2026-09-21 16:05:29] creating drug codelists
+INFO  [2026-09-21 16:05:29] creating dementia drug based cohorts
+INFO  [2026-09-21 16:06:33] Binding dementia drugs and dementia conditions into the same table
+INFO  [2026-09-21 16:06:39] Union dementia drugs and dementia conditions
+INFO  [2026-09-21 16:07:01] Creating cvd cohorts
+INFO  [2026-09-21 16:07:01] Import cvd codelists
+INFO  [2026-09-21 16:07:01] Instantiate cvd cohorts
+INFO  [2026-09-21 16:08:07] Union cvd cohorts
+INFO  [2026-09-21 16:08:30] Intersect dem cohortl
+INFO  [2026-09-21 16:08:48] Require demographics
+INFO  [2026-09-21 16:09:20] Require demographics to dementia cohorts
+INFO  [2026-09-21 16:09:53] Require demographics to cvd cohorts
+INFO  [2026-09-21 16:19:45] LOG CREATED
+INFO  [2026-09-21 16:19:45] Summarise snapshot
+INFO  [2026-09-21 16:19:46] LOG CREATED
+INFO  [2026-09-21 16:19:56] START INSTANTIATING COHORTS
+INFO  [2026-09-21 16:19:56] Creating cohorts
+INFO  [2026-09-21 16:19:56] Creating dementia condition based cohorts
+INFO  [2026-09-21 16:20:58] creating drug codelists
+INFO  [2026-09-21 16:20:58] creating dementia drug based cohorts
+INFO  [2026-09-21 16:21:59] Binding dementia drugs and dementia conditions into the same table
+INFO  [2026-09-21 16:22:05] Union dementia drugs and dementia conditions
+INFO  [2026-09-21 16:22:29] Creating cvd cohorts
+INFO  [2026-09-21 16:22:29] Import cvd codelists
+INFO  [2026-09-21 16:22:29] Instantiate cvd cohorts
+INFO  [2026-09-21 16:23:34] Union cvd cohorts
+INFO  [2026-09-21 16:23:57] Intersect dem cohortl
+INFO  [2026-09-21 16:24:18] Require demographics
+INFO  [2026-09-21 16:24:54] Require demographics to dementia cohorts
+INFO  [2026-09-21 16:25:29] Require demographics to cvd cohorts
+INFO  [2026-09-21 16:26:02] Import codelists covariates
+INFO  [2026-09-21 16:26:03] Instantiate covariates cohorts
+INFO  [2026-09-21 16:28:09] FINISHING INSTANTIATING COHORTS
+INFO  [2026-09-21 16:33:45] LOG CREATED
+INFO  [2026-09-21 16:33:45] Summarise snapshot
+INFO  [2026-09-21 16:33:47] LOG CREATED
+INFO  [2026-09-21 16:33:57] START INSTANTIATING COHORTS
+INFO  [2026-09-21 16:33:57] Creating cohorts
+INFO  [2026-09-21 16:33:57] Creating dementia condition based cohorts
+INFO  [2026-09-21 16:34:57] creating drug codelists
+INFO  [2026-09-21 16:34:57] creating dementia drug based cohorts
+INFO  [2026-09-21 16:35:54] Binding dementia drugs and dementia conditions into the same table
+INFO  [2026-09-21 16:35:59] Union dementia drugs and dementia conditions
+INFO  [2026-09-21 16:36:21] Creating cvd cohorts
+INFO  [2026-09-21 16:36:21] Import cvd codelists
+INFO  [2026-09-21 16:36:21] Instantiate cvd cohorts
+INFO  [2026-09-21 16:37:26] Union cvd cohorts
+INFO  [2026-09-21 16:37:48] Intersect dem cohortl
+INFO  [2026-09-21 16:38:07] Require demographics
+INFO  [2026-09-21 16:38:40] Require demographics to dementia cohorts
+INFO  [2026-09-21 16:39:12] Require demographics to cvd cohorts
+INFO  [2026-09-21 16:39:44] Import codelists covariates
+INFO  [2026-09-21 16:39:45] Instantiate covariates cohorts
+INFO  [2026-09-21 16:41:41] FINISHING INSTANTIATING COHORTS
+INFO  [2026-09-21 16:41:41] Summarise cohort count dementia
+INFO  [2026-09-21 16:41:49] Summarise cohort count cvd
+INFO  [2026-09-21 16:41:51] Summarise cohort count cvd dementia
+INFO  [2026-09-21 16:41:59] Summarise cohort attrition dementia
+INFO  [2026-09-21 16:42:00] Summarise cohort attrition cvd
+INFO  [2026-09-21 16:42:00] Summarise cohort attrition cvd dementia
+INFO  [2026-09-21 16:42:01] Summarise cohort attrition dementia

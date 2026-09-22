@@ -1,8 +1,7 @@
-library(CDMConnector)
-library(IncidencePrevalence)
-
+info(logger, "STARTING INCIDENCE PREVALENCE")
 ##Overall population cohort 
 #generate denominator
+info(logger, "Creating denominator")
 cdm <- generateDenominatorCohortSet(
   cdm = cdm,
   name = "overall_population",
@@ -16,60 +15,83 @@ cdm <- generateDenominatorCohortSet(
   daysPriorObservation = 180
 )
 
-#estimate incidence dementia in overall population
-inc_dem <- estimateIncidence(
+info(logger, "estimate incidence dementia in overall population")
+results[["incidence_dementia"]] <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "dementia_cohorts",
+  outcomeTable = "dementia_cohorts_incprev",
   interval = "years",
-  repeatedEvents = TRUE,
+  repeatedEvents = FALSE,
+  outcomeWashout = Inf,
   completeDatabaseIntervals = TRUE
 )
-plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
+#plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
-
-#estimate period prevalence of dementia in overall population
-prev_period_dem <- estimatePeriodPrevalence(
+info(logger, "estimate period prevalence dementia in overall population")
+results[["period_prevalence_dementia"]] <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "dementia_cohorts",
+  outcomeTable = "dementia_cohorts_incprev",
   interval = "years",
   completeDatabaseIntervals = TRUE,
   fullContribution = TRUE
 )
-plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
+#plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 
-#estimate incidence cvd in overall population
-inc_cvd <- estimateIncidence(
+info(logger, "estimate incidence cvd in overall population")
+results[["incidence_cvd"]] <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "cvd_cohorts",
+  outcomeTable = "cvd_cohorts_incprev",
   interval = "years",
-  repeatedEvents = TRUE,
-  outcomeWashout = 180,
+  repeatedEvents = FALSE,
+  outcomeWashout = Inf,
   completeDatabaseIntervals = TRUE
 )
-plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
+#plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 #estimate period prevalence of cvd in overall population
-prev_period_cvd <- estimatePeriodPrevalence(
+info(logger, "estimate period prevalence cvd in overall population")
+results[["period_prevalence_cvd"]] <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "cvd_cohorts",
+  outcomeTable = "cvd_cohorts_incprev",
   interval = "years",
   completeDatabaseIntervals = TRUE,
   fullContribution = TRUE
 )
-plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
+#plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 
+info(logger, "estimate incidence inc_dem_cvd in overall population")
+results[["incidence_cvd_dementia"]] <- estimateIncidence(
+  cdm = cdm,
+  denominatorTable = "overall_population",
+  outcomeTable = "cvd_dem_cohorts_criteria_incprev",
+  interval = "years",
+  repeatedEvents = FALSE,
+  outcomeWashout = Inf,
+  completeDatabaseIntervals = TRUE
+)
+
+info(logger, "estimate period prevalence inc_dem_cvd in overall population")
+results[["period_prevalence_cvd_dementia"]] <- estimatePeriodPrevalence(
+  cdm = cdm,
+  denominatorTable = "overall_population",
+  outcomeTable = "cvd_dem_cohorts_criteria_incprev",
+  interval = "years",
+  completeDatabaseIntervals = TRUE,
+  fullContribution = TRUE
+)
 
 ##Dementia_CVD cohort 
 
 #generate denominator
 cdm <- generateTargetDenominatorCohortSet(
   cdm = cdm,
-  name = "denominator_dementia_CVD",
+  name = "denominator_dementia",
+  targetCohortTable = "dementia_cohorts_incprev",
+  targetCohortId="dementia_overall",
   cohortDateRange = as.Date(c("2005-01-01", "2024-12-31")),
   ageGroup = list(
     c(18, 150),
@@ -81,39 +103,27 @@ cdm <- generateTargetDenominatorCohortSet(
 )
 
 #estimate incidence CVD in dementia population
-inc_cvd_dem <- estimateIncidence(
+results[["incidence_cvd_among_dementia_pop"]] <- estimateIncidence(
   cdm = cdm,
-  denominatorTable = "dementia_cohorts",
-  outcomeTable = "cvd_cohorts",
+  denominatorTable = "denominator_dementia",
+  outcomeTable = "cvd_cohorts_incprev",
   interval = "years",
-  repeatedEvents = TRUE,
-  outcomeWashout = 180,
+  repeatedEvents = FALSE,
+  outcomeWashout = Inf,
   completeDatabaseIntervals = TRUE
 )
-plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
+#plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 #estimate period prevalence of CVD in dementia population
-prev_period_cvd_dem <- estimatePeriodPrevalence(
+results[["period_prevalence_cvd_among_dementia_pop"]] <- estimatePeriodPrevalence(
   cdm = cdm,
-  denominatorTable = "dementia_cohorts",
-  outcomeTable = "cvd_cohorts",
+  denominatorTable = "denominator_dementia",
+  outcomeTable = "cvd_cohorts_incprev",
   interval = "years",
   completeDatabaseIntervals = TRUE,
   fullContribution = TRUE
 )
-plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
+#plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
+info(logger, "FINISHING INCIDENCE PREVALENCE")
 
-##Bind all results
-cdm <- bind(cdm[["prev_period_dem"]],
-            cdm[["inc_dem"]],
-            cdm$"inc_cvd",
-            cdm$"prev_period_cvd",
-            cdm$"inc_cvd_dem",
-            cdm$"prev_period_cvd_dem", 
-              name="results_inc_prev")
 
-## Exporting to xlsx
-study_path <-"C:/Users/aballve/OneDrive - Nexus365/Dementia_CVD/Project_AD_CVD"
-openxlsx::write.xlsx(cdm, 
-                     file = paste0(study_path, "incidence_prevalence.xlsx"), 
-                     colNames = TRUE, rowNames = FALSE)

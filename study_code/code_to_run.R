@@ -27,6 +27,10 @@ library(odbc)
 library(RPostgres)
 library(readr)
 library(purrr)
+library(log4r)
+library(omock)
+library(duckdb)
+library(IncidencePrevalence)
 
 # database metadata and connection details
 # The name/ acronym for the database
@@ -88,3 +92,4 @@ omopgenerics::cdmVersion(cdm) #5.4
 
 # Run study ----
 source(here("run_study.R"))
+

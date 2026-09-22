@@ -4,10 +4,10 @@ if(!dir.exists(resultsFolder)){
   dir.create(resultsFolder)
 }
 loggerName <- gsub(":| |-", "", paste0("log_", Sys.Date(),".txt"))
-logger <- log4r::create.logger()
-log4r::logfile(logger) <- here::here(resultsFolder, loggerName)
-log4r::level(logger) <- "INFO"
-log4r::info(logger, "LOG CREATED") #to write messages in log file
+logger <- create.logger()
+logfile(logger) <- here::here(resultsFolder, loggerName)
+level(logger) <- "INFO"
+info(logger, "LOG CREATED") #to write messages in log file
 
 # correct drug era
 cdm$drug_era <- cdm$drug_era |>
@@ -16,13 +16,26 @@ cdm$drug_era <- cdm$drug_era |>
     drug_era_end_date = as.Date(drug_era_end_date)
   )
 
+results <- list()
+
+info(logger, "Summarise snapshot")
+results[["snapshot"]] <- summariseOmopSnapshot(cdm)
+
+info(logger, "LOG CREATED")
+results[["obs_period"]] <- summariseObservationPeriod(cdm)
+
 # instantiate necessary cohorts ----
-source(here("cohorts","instantiate_cohorts.R"))
+log4r::info(logger, "START INSTANTIATING COHORTS") 
+source(here("Cohorts","Instantiate_cohorts.R"))
+log4r::info(logger, "FINISHING INSTANTIATING COHORTS") 
 
 # run diagnostics ----
 
-source(here("analyses", "characteristics.R"))
-source(here("analyses", "incidence_prevalence.R"))
+source(here("Analyses", "characteristics.R"))
+source(here("Analyses", "Incidence_prevalence.R"))
 
+#save results
+results<-bind(results)
+exportSummarisedResult(results, path = "results")
 
-log4r::info(logger, "Finished")
+info(logger, "Finished")

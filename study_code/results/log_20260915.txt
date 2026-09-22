@@ -1,0 +1,6 @@
+INFO  [2026-09-15 14:56:17] LOG CREATED
+INFO  [2026-09-15 14:56:17] Summarise snapshot
+INFO  [2026-09-15 14:56:18] LOG CREATED
+INFO  [2026-09-15 14:56:31] START INSTANTIATING COHORTS
+INFO  [2026-09-21 15:38:09] Creating cohorts
+INFO  [2026-09-21 15:38:09] Creating dementia condition based cohorts

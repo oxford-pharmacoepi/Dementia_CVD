@@ -1,26 +1,50 @@
-library(CDMConnector)
-library(duckdb)
-library(dplyr, warn.conflicts = FALSE)
-
 #Cohort Counts+ Attrition
+info(logger, "Summarise cohort count dementia") 
 results[["cohort_count_dementia_any"]] <- cdm$dementia_cohorts|>
-  summariseCohortCount()|>tableCohortCount()
+  summariseCohortCount()
 
+info(logger, "Summarise cohort count cvd") 
 results[["cohort_count_cvd_any"]] <- cdm$cvd_cohorts |>
-  summariseCohortCount()|>tableCohortCount()
+  summariseCohortCount()
 
-results[["cohort_count_dem_cvd_any"]] <- cdm$cdm$cvd_dem_cohorts |>
-  summariseCohortCount()|>tableCohortCount()
+info(logger, "Summarise cohort count cvd dementia") 
+results[["cohort_count_dem_cvd_any"]] <- cdm$cvd_dem_cohorts |>
+  summariseCohortCount()
 
+info(logger, "Summarise cohort attrition dementia") 
 results[["cohort_attrition_dementia_any"]] <- cdm$dementia_cohorts |>
   summariseCohortAttrition()
 
+info(logger, "Summarise cohort attrition cvd") 
 results[["cohort_attrition_cvd_any"]] <- cdm$cvd_cohorts |>
   summariseCohortAttrition()
 
-results[["cohort_attrition_dem_cvd_any"]] <- cdm$cdm$cvd_dem_cohorts |>
+info(logger, "Summarise cohort attrition cvd dementia") 
+results[["cohort_attrition_dem_cvd_any"]] <- cdm$cvd_dem_cohorts |>
   summariseCohortAttrition()
 
+info(logger, "Summarise cohort code use dementia") 
+cdm |> summariseCohortCodeUse(cohortTable = "dementia_cohorts")
+
+info(logger, "Summarise cohort code use cvd") 
+cdm |> summariseCohortCodeUse(cohortTable = "cvd_cohorts")
+
+info(logger, "Summarise cohort code use cvd dementia") 
+cdm |> summariseCohortCodeUse(cohortTable = "cvd_dem_cohorts")
+
+info(logger, "Summarise cohort characteristics dementia_cvd") 
+results[["summarise_characteristics"]] <- cdm[["cvd_dem_cohorts"]] |>
+  addAge(ageGroup = list(c(18,64), c(65, 150))) |>
+  addSex() |>
+  summariseCharacteristics(
+    strata = list("age_group", "sex"),
+    "cohortIntersectFlag" = list(
+      "Comorbidities prior to index date" = list(
+        "targetCohortTable" = "covariates",
+        "window" = c(-Inf, 0)
+      )
+    )
+  )
 # #Cohort characteristics dementia_any
 # cdm$dementia_cohorts|>
 #   addSex()%>%
@@ -47,20 +71,4 @@ results[["cohort_attrition_dem_cvd_any"]] <- cdm$cdm$cvd_dem_cohorts |>
 #     ageGroup = list (c(18-64), c(65-150),c(18, 150))
 #                     )
     
-#Cohort characteristics dementia_cvd
-cdm$cvd_dem_cohorts|>
-  addSex()%>%
-  addAge(ageGroup=list(c(18-64), c(65-150),c(18, 150)))%>%
-summariseCharacteristics(
-    cohort,
-    cohortId = NULL,
-    strata = list("age", "sex"),
-    counts = TRUE,
-    demographics = TRUE,
-    ageGroup = list (c(18-64), c(65-150),c(18, 150))
-    )|>
-  tableCharacteristics(cdm$cvd_dem_cohorts)|>
-  tableCohortOverlap(cdm$ami)|>
-  tableCohortOverlap(cdm$af)|>
-  tableCohortOverlap(cdm$oh)|>
-  cdm$anxiety, cdm$bipolar, cdm$cancer, cdm$carotid, cdm$chronic_liver, cdm$ckd<, cdm$depression, cdm$dlp, cdm$endocarditis, cdm$hearing_loss, cdm$hf, cdm$hta, cdm$osa, cdm$rbd, cdm$rls, cdm$schizo, cdm$valve)
+
