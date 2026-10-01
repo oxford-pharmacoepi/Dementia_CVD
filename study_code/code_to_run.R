@@ -31,7 +31,7 @@ library(log4r)
 library(omock)
 library(duckdb)
 library(IncidencePrevalence)
-
+library(CohortSurvival)
 # database metadata and connection details
 # The name/ acronym for the database
 dbName <- "CPRD GOLD_100k"

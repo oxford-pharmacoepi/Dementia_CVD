@@ -42,7 +42,7 @@ info(logger, "estimate incidence cvd in overall population")
 results[["incidence_cvd"]] <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "cvd_cohorts_incprev",
+  outcomeTable = "cvd_cohorts_inc",
   interval = "years",
   repeatedEvents = FALSE,
   outcomeWashout = Inf,
@@ -56,7 +56,7 @@ info(logger, "estimate period prevalence cvd in overall population")
 results[["period_prevalence_cvd"]] <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "overall_population",
-  outcomeTable = "cvd_cohorts_incprev",
+  outcomeTable = "cvd_cohorts_prev",
   interval = "years",
   completeDatabaseIntervals = TRUE,
   fullContribution = TRUE
@@ -106,7 +106,7 @@ cdm <- generateTargetDenominatorCohortSet(
 results[["incidence_cvd_among_dementia_pop"]] <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "denominator_dementia",
-  outcomeTable = "cvd_cohorts_incprev",
+  outcomeTable = "cvd_cohorts_inc",
   interval = "years",
   repeatedEvents = FALSE,
   outcomeWashout = Inf,
@@ -118,12 +118,28 @@ results[["incidence_cvd_among_dementia_pop"]] <- estimateIncidence(
 results[["period_prevalence_cvd_among_dementia_pop"]] <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "denominator_dementia",
-  outcomeTable = "cvd_cohorts_incprev",
+  outcomeTable = "cvd_cohorts_prev",
   interval = "years",
   completeDatabaseIntervals = TRUE,
   fullContribution = TRUE
 )
 #plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 info(logger, "FINISHING INCIDENCE PREVALENCE")
+
+
+
+#estimate 1 and 5 year cumulative incidence of stroke/tia among populations with dementia
+denominator_dementia_wo_stroke<- requireCohortIntersect(
+                                                "denominator_dementia",
+                                                targetCohortTable = "stroketia_prev",
+                                                window=c(-inf, -1),
+                                                intersections=c(1, Inf),
+                                                cohortId=NULL,
+                                                name="denominator_dementia_wo_stroke")
+stroketia_dementia <- estimateCompetingRiskSurvival(cdm,
+                                                 targetCohortTable = "denominator_dementia_wo_stroke",
+                                                 outcomeCohortTable = "stroketia_inc",
+                                                 competingOutcomeCohortTable = "death_dementia"
+)|>tableSurvival(stroketia_dementia, times=c(0, 365, 1825))
 
 
