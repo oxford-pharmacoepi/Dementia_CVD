@@ -4,6 +4,8 @@ library(PhenotypeR)
 log4r::info(logger, "Running Phenotype Diagnostics")
 results <- list()
 
+options("PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow" = c("drug_exposure", "visit_occurrence"))
+
 ##diagnostics
 results[["cvd_dem_cohorts"]] <- phenotypeDiagnostics(
   cdm[["cvd_dem_cohorts"]], 
@@ -26,6 +28,14 @@ results[["cvd_cohorts"]] <- phenotypeDiagnostics(
   populationDateRange = as.Date(c(NA, NA))
 )
 
+results[["hemorr_conditions"]] <- phenotypeDiagnostics(
+  cdm[["hemorr_conditions"]], 
+  databaseDiagnostics=NULL,
+  codelistDiagnostics=list(),
+  cohortDiagnostics=list(),
+  populationDiagnostics = list(),
+  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results/incremental")
+
 #per evitar error duplicate results
 results[["dementia_cohorts"]] <- results[["dementia_cohorts"]]  |> filterSettings(result_type != "summarise_log_file")                  
 results[["cvd_dem_cohorts"]] <- results[["cvd_dem_cohorts"]] |> filterSettings(result_type != "summarise_log_file")  
@@ -41,7 +51,7 @@ exportSummarisedResult(
   minCellCount = minCellCount
 )
 
-#result <-omopgenerics::importSummarisedResult(here::here("results"))
+result <-omopgenerics::importSummarisedResult(here::here("results"))
 
-#shinyDiagnostics(result, here::here())
+shinyDiagnostics(result, here::here())
 

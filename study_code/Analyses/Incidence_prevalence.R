@@ -87,6 +87,7 @@ results[["period_prevalence_cvd_dementia"]] <- estimatePeriodPrevalence(
 ##Dementia_CVD cohort 
 
 #generate denominator
+info(logger, "generate denominator dementia")
 cdm <- generateTargetDenominatorCohortSet(
   cdm = cdm,
   name = "denominator_dementia",
@@ -103,6 +104,7 @@ cdm <- generateTargetDenominatorCohortSet(
 )
 
 #estimate incidence CVD in dementia population
+info(logger, "estimate incidence cvd among dementia pop")
 results[["incidence_cvd_among_dementia_pop"]] <- estimateIncidence(
   cdm = cdm,
   denominatorTable = "denominator_dementia",
@@ -115,6 +117,7 @@ results[["incidence_cvd_among_dementia_pop"]] <- estimateIncidence(
 #plotIncidence(inc, facet = c("denominator_age_group", "denominator_sex"))
 
 #estimate period prevalence of CVD in dementia population
+info(logger, "estimate period prevalence of cvd in dementia pop")
 results[["period_prevalence_cvd_among_dementia_pop"]] <- estimatePeriodPrevalence(
   cdm = cdm,
   denominatorTable = "denominator_dementia",
@@ -126,20 +129,62 @@ results[["period_prevalence_cvd_among_dementia_pop"]] <- estimatePeriodPrevalenc
 #plotPrevalence(prev_period, facet = c("denominator_age_group", "denominator_sex"))
 info(logger, "FINISHING INCIDENCE PREVALENCE")
 
-
-
 #estimate 1 and 5 year cumulative incidence of stroke/tia among populations with dementia
-denominator_dementia_wo_stroke<- requireCohortIntersect(
-                                                "denominator_dementia",
-                                                targetCohortTable = "stroketia_prev",
-                                                window=c(-inf, -1),
-                                                intersections=c(1, Inf),
-                                                cohortId=NULL,
-                                                name="denominator_dementia_wo_stroke")
-stroketia_dementia <- estimateCompetingRiskSurvival(cdm,
-                                                 targetCohortTable = "denominator_dementia_wo_stroke",
-                                                 outcomeCohortTable = "stroketia_inc",
-                                                 competingOutcomeCohortTable = "death_dementia"
-)|>tableSurvival(stroketia_dementia, times=c(0, 365, 1825))
+info(logger, "estimate 1 and 5 year cumulative incidence of stroke/tia among populations with dementia - 0 washout")
+results[["competing_risk_stroke_0_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                               targetCohortTable = "dementia_cohorts",
+                                                                               outcomeCohortTable = "stroketia_conditions_inc",
+                                                                               outcomeWashout = 0,
+                                                                               competingOutcomeCohortTable = "death_dementia")
 
+info(logger, "estimate 1 and 5 year cumulative incidence of stroke/tia among populations with dementia - Inf washout")
+results[["competing_risk_stroke_inf_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                               targetCohortTable = "dementia_cohorts",
+                                                                               outcomeCohortTable = "stroketia_conditions_inc",
+                                                                               outcomeWashout = Inf,
+                                                                               competingOutcomeCohortTable = "death_dementia")
 
+#estimate 1 and 5 year cumulative incidence of hemorr stroke among populations with dementia
+info(logger, "estimate 1 and 5 year cumulative incidence of hemorr stroke among populations with dementia - 0 washout")
+results[["competing_risk_hemorrstroke_0_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                               targetCohortTable = "dementia_cohorts",
+                                                                               outcomeCohortTable = "hemorr_conditions",
+                                                                               outcomeWashout = 0,
+                                                                               competingOutcomeCohortTable = "death_dementia")
+
+info(logger, "estimate 1 and 5 year cumulative incidence of hemorr stroke among populations with dementia - Inf washout")
+results[["competing_risk_hemorrstroke_inf_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                                 targetCohortTable = "dementia_cohorts",
+                                                                                 outcomeCohortTable = "hemorr_conditions",
+                                                                                 outcomeWashout = Inf,
+                                                                                 competingOutcomeCohortTable = "death_dementia")
+
+#estimate 1 and 5 year cumulative incidence of ICH among populations with dementia
+info(logger, "estimate 1 and 5 year cumulative incidence of parenq hemorr among populations with dementia - 0 washout")
+results[["competing_risk_ich_0_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                                     targetCohortTable = "dementia_cohorts",
+                                                                                     outcomeCohortTable = "hemorr_parenq",
+                                                                                     outcomeWashout = 0,
+                                                                                     competingOutcomeCohortTable = "death_dementia")
+
+info(logger, "estimate 1 and 5 year cumulative incidence of hemorr parenq among populations with dementia - Inf washout")
+results[["competing_risk_ich_inf_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                                       targetCohortTable = "dementia_cohorts",
+                                                                                       outcomeCohortTable = "hemorr_parenq",
+                                                                                       outcomeWashout = Inf,
+                                                                                       competingOutcomeCohortTable = "death_dementia")
+
+#estimate 1 and 5 year cumulative incidence of ARIA-H among populations with dementia
+info(logger, "estimate 1 and 5 year cumulative incidence of hemorr stroke among populations with dementia - 0 washout")
+results[["competing_risk_ariah_0_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                            targetCohortTable = "dementia_cohorts",
+                                                                            outcomeCohortTable = "aria_h",
+                                                                            outcomeWashout = 0,
+                                                                            competingOutcomeCohortTable = "death_dementia")
+
+info(logger, "estimate 1 and 5 year cumulative incidence of ARIA-H among populations with dementia - Inf washout")
+results[["competing_risk_ariah_inf_washout"]]  <- estimateCompetingRiskSurvival(cdm,
+                                                                              targetCohortTable = "dementia_cohorts",
+                                                                              outcomeCohortTable = "aria_h",
+                                                                              outcomeWashout = Inf,
+                                                                              competingOutcomeCohortTable = "death_dementia")

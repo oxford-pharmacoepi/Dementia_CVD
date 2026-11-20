@@ -37,7 +37,7 @@ cdm <- bind(cdm[["dementia_drugs"]],
 
 log4r::info(logger, "Union dementia drugs and dementia conditions") 
 cdm$dementia_cohorts_incprev <- unionCohorts(cdm$dementia_cohorts,
-                                     cohortName = "dementia_overall", 
+                                     cohortName = NULL, 
                                      keepOriginalCohorts = TRUE,
                                      name ="dementia_cohorts_incprev")
 
@@ -79,12 +79,64 @@ cdm$cvd_cohorts_prev <- CohortConstructor::unionCohorts(cdm$cvd_conditions_prev,
                                                        name ="cvd_cohorts_prev")
 #settings(cdm$cvd_cohorts)
 
+##stroketia cohorts
+log4r::info(logger, "Instantiate stroketia cohorts") 
+stroketia_inc_codes<- omopgenerics::importCodelist(here::here("Cohorts","Code_lists_cvd_inc"), 
+                                                   type = "csv")
+
+stroketia_inc_codes <- stroketia_inc_codes["stroke_tia_inc"]
+cdm$stroketia_conditions_inc <- CohortConstructor::conceptCohort(cdm, 
+                                                           conceptSet = stroketia_inc_codes,
+                                                           exit = "event_end_date",
+                                                           overlap="merge", 
+                                                           name = "stroketia_conditions_inc",
+                                                           useRecordsBeforeObservation = FALSE)|>
+  exitAtObservationEnd()
+
+
+#hemorr cohorts
+log4r::info(logger, "Instantiate haemorrhagic cohort") 
+hemorr_codes<- omopgenerics::importCodelist(here::here("Cohorts","Code_lists_hemorr"), 
+                                            type = "csv")
+
+cdm$hemorr_conditions <- CohortConstructor::conceptCohort(cdm, 
+                                                          conceptSet = hemorr_codes,
+                                                          exit = "event_end_date",
+                                                          overlap="merge", 
+                                                          name = "hemorr_conditions",
+                                                          useRecordsBeforeObservation = FALSE)|>
+  exitAtObservationEnd()
+
+log4r::info(logger, "Instantiate hemorr_parenq cohort") 
+hemorr_parenq_codes<- omopgenerics::importCodelist(here::here("Cohorts","Code_lists_hemorr", "hemorr_parenq"),
+                                         type = "csv")
+cdm$hemorr_parenq <- CohortConstructor::conceptCohort(cdm, 
+                                                       conceptSet = hemorr_parenq_codes,
+                                                       exit = "event_end_date",
+                                                       overlap="merge", 
+                                                       name = "hemorr_parenq",
+                                                       useRecordsBeforeObservation = FALSE)|>
+  exitAtObservationEnd()
+
+
+log4r::info(logger, "Instantiate ARIA_H cohort") 
+aria_h_codes<- omopgenerics::importCodelist(here::here("Cohorts","Code_lists_hemorr", "aria_h"),
+                                                   type = "csv")
+
+cdm$aria_h <- CohortConstructor::conceptCohort(cdm, 
+                                                         conceptSet = aria_h_codes,
+                                                         exit = "event_end_date",
+                                                         overlap="merge", 
+                                                         name = "aria_h",
+                                                         useRecordsBeforeObservation = FALSE)|>
+  exitAtObservationEnd()
+
 
 ###CVD_dem cohorts
 #bind exposures and outcomes for characterisation
 log4r::info(logger, "Intersect dem cohortl") 
 cdm$cvd_dem_cohorts_criteria_incprev <- cdm$dementia_cohorts_incprev |>
-  requireCohortIntersect(cohortId = "dementia_overall",
+  requireCohortIntersect(cohortId = "dementia_cohorts_incprev",
                          targetCohortTable="cvd_cohorts_prev",
                          targetCohortId = "cvd_overall_prev",
                          window=c(-Inf, Inf), 
@@ -142,7 +194,9 @@ cdm$covariates <- CohortConstructor::conceptCohort(cdm,
   exitAtObservationEnd()
 
 ##death cohorts
-death_dementia<-deathCohort(cdm$dementia_cohorts_incprev,
+log4r::info(logger, "Instantiate death cohort") 
+cdm$death_dementia<-deathCohort(cdm,
+                            subsetCohort = "dementia_cohorts_incprev",
                             name="death_dementia") 
                         
-            
+ 

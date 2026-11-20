@@ -30,7 +30,7 @@ library(purrr)
 
 # database metadata and connection details
 # The name/ acronym for the database
-dbName <- "CPRD GOLD"
+dbName <- "GOLD_100k"
 
 # Database connection details
 # In this study we also use the DBI package to connect to the database

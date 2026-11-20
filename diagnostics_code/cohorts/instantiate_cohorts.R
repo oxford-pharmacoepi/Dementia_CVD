@@ -59,7 +59,8 @@ cdm$dementia_cohorts<- unionCohorts(cdm$dementia_cohorts,
 
 log4r::info(logger, "Creating cvd cohorts") 
 
-#CVD cohorts
+##CVD cohorts
+
 cvd_codes<- omopgenerics::importCodelist(here::here("~/R/Dementia_CVD/diagnostics_code/cohorts/Code_lists_cvd"), 
                                               type = "csv")
 
@@ -76,6 +77,19 @@ cdm$cvd_cohorts<- unionCohorts(cdm$cvd_conditions,
                                     keepOriginalCohorts = TRUE,
                                     name ="cvd_cohorts")
 log4r::info(logger, "binding cohorts") 
+
+#hemorr cohorts
+hemorr_codes<- omopgenerics::importCodelist(here::here("~/Dementia_CVD/diagnostics_code/cohorts/Code_lists_cvd/hemorr"), 
+                                            type = "csv")
+
+cdm$hemorr_conditions <- CohortConstructor::conceptCohort(cdm, 
+                                                       conceptSet = hemorr_codes,
+                                                       exit = "event_end_date",
+                                                       overlap="merge", 
+                                                       name = "hemorr_conditions",
+                                                       useRecordsBeforeObservation = FALSE)|>
+  exitAtObservationEnd()
+
 
 #bind exposures and outcomes
 cdm$cvd_dem_cohorts<- cdm$dementia_cohorts|> 

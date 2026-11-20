@@ -34,7 +34,7 @@ library(IncidencePrevalence)
 library(CohortSurvival)
 # database metadata and connection details
 # The name/ acronym for the database
-dbName <- "CPRD GOLD_100k"
+dbName <- "CPRD GOLD 100k"
 
 # Database connection details
 # In this study we also use the DBI package to connect to the database
