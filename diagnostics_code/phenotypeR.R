@@ -7,26 +7,30 @@ results <- list()
 options("PhenotypeR_summariseLargeScaleCharacteristics_episodeInWindow" = c("drug_exposure", "visit_occurrence"))
 
 ##diagnostics
-results[["cvd_dem_cohorts"]] <- phenotypeDiagnostics(
-  cdm[["cvd_dem_cohorts"]], 
-  diagnostics = c("databaseDiagnostics", "codelistDiagnostics", "cohortDiagnostics",
-                  "populationDiagnostics"),
-  populationDateRange = as.Date(c(NA, NA))
-  )
 
-results[["dementia_cohorts"]] <- phenotypeDiagnostics(
-  cdm[["dementia_cohorts"]], 
-  diagnostics = c("databaseDiagnostics", "codelistDiagnostics", "cohortDiagnostics",
-                  "populationDiagnostics"),
-  populationDateRange = as.Date(c(NA, NA))
-)
+results[["dementia_cohorts_incprev"]] <- phenotypeDiagnostics(
+  cdm[["dementia_cohorts_incprev"]], 
+  databaseDiagnostics=list(),
+  codelistDiagnostics=list(),
+  cohortDiagnostics=list(),
+  populationDiagnostics = list(),
+  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results")
 
-results[["cvd_cohorts"]] <- phenotypeDiagnostics(
-  cdm[["cvd_cohorts"]], 
-  diagnostics = c("databaseDiagnostics", "codelistDiagnostics", "cohortDiagnostics",
-                  "populationDiagnostics"),
-  populationDateRange = as.Date(c(NA, NA))
-)
+results[["cvd_cohorts_inc"]] <- phenotypeDiagnostics(
+  cdm[["cvd_cohorts_inc"]], 
+  databaseDiagnostics=list(),
+  codelistDiagnostics=list(),
+  cohortDiagnostics=list(),
+  populationDiagnostics = list(),
+  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results")
+
+results[["cvd_cohorts_prev"]] <- phenotypeDiagnostics(
+  cdm[["cvd_cohorts_prev"]], 
+  databaseDiagnostics=list(),
+  codelistDiagnostics=list(),
+  cohortDiagnostics=list(),
+  populationDiagnostics = list(),
+  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results")
 
 results[["hemorr_conditions"]] <- phenotypeDiagnostics(
   cdm[["hemorr_conditions"]], 
@@ -34,13 +38,17 @@ results[["hemorr_conditions"]] <- phenotypeDiagnostics(
   codelistDiagnostics=list(),
   cohortDiagnostics=list(),
   populationDiagnostics = list(),
-  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results/incremental")
+  stagingDirectory = "~/Dementia_CVD/diagnostics_code/results")
 
 #per evitar error duplicate results
-results[["dementia_cohorts"]] <- results[["dementia_cohorts"]]  |> filterSettings(result_type != "summarise_log_file")                  
-results[["cvd_dem_cohorts"]] <- results[["cvd_dem_cohorts"]] |> filterSettings(result_type != "summarise_log_file")  
-results[["dementia_cohorts"]] <- results[["dementia_cohorts"]]  |> filterSettings(result_type != "summarise_omop_snapshot")                  
-results[["cvd_dem_cohorts"]] <- results[["cvd_dem_cohorts"]] |> filterSettings(result_type != "summarise_omop_snapshot")  
+results[["dementia_cohorts_incprev"]] <- results[["dementia_cohorts_incprev"]]  |> filterSettings(result_type != "summarise_log_file")                  
+results[["cvd_cohorts_inc"]] <- results[["cvd_cohorts_inc"]] |> filterSettings(result_type != "summarise_log_file")  
+results[["cvd_cohorts_prev"]] <- results[["cvd_cohorts_prev"]] |> filterSettings(result_type != "summarise_log_file") 
+results[["hemorr_conditions"]] <- results[["hemorr_conditions"]]  |> filterSettings(result_type != "summarise_log_file")   
+results[["dementia_cohorts_incprev"]] <- results[["dementia_cohorts_incprev"]]  |> filterSettings(result_type != "summarise_omop_snapshot")                  
+results[["cvd_cohorts_inc"]] <- results[["cvd_cohorts_inc"]] |> filterSettings(result_type != "summarise_omop_snapshot")  
+results[["cvd_cohorts_prev"]] <- results[["cvd_cohorts_prev"]] |> filterSettings(result_type != "summarise_omop_snapshot")   
+results[["hemorr_conditions"]] <- results[["hemorr_conditions"]] |> filterSettings(result_type != "summarise_omop_snapshot") 
 
 results1 <- bind(results) #Marta's code without specifying the name of the database
 

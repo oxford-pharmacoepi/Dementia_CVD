@@ -1,5 +1,5 @@
 #usethis::edit_r_environ() #Open your .Renviron file
-
+#install.packages("PhenotypeR")
 # Run lines below to use renv
 #renv::activate()
 #renv::restore()
@@ -27,6 +27,10 @@ library(odbc)
 library(RPostgres)
 library(readr)
 library(purrr)
+library(omock)
+library(CodelistGenerator)
+library(PatientProfiles)
+library(duckdb)
 
 # database metadata and connection details
 # The name/ acronym for the database
